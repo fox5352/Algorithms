@@ -53,43 +53,42 @@ pub mod sorting_algorithms {
 pub mod tests {
     use super::*;
 
+    // create a wrapper function called timer
+    fn timer<F>(func: F, name: &str)
+        where F: FnOnce(){
+        let start = std::time::Instant::now();
+        func();
+        let end = std::time::Instant::now();
+        // print time in seconds
+        println!("{} took: {:.6}s", name, end.duration_since(start).as_secs_f64());
+
+    }
+
     pub fn test_linear_search() {
         let array: Vec<i32> = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        // start timer
-        let start = std::time::Instant::now();        
-
-        // do tests
-        assert_eq!(search_algorithms::linear_search(&array, 4), 3);
-        assert_eq!(search_algorithms::linear_search(&array, 5), 4);
-        assert_eq!(search_algorithms::linear_search(&array, 6), 5);
-        assert_eq!(search_algorithms::linear_search(&array, 7), 6);
-        assert_eq!(search_algorithms::linear_search(&array, 8), 7);
-        assert_eq!(search_algorithms::linear_search(&array, 9), 8);
-        assert_eq!(search_algorithms::linear_search(&array, 10), 9);
-
-        // stop timer
-        let end = std::time::Instant::now();
-        let duration = end.duration_since(start);
-        println!("Linear search time: {:?}", duration);    
+        
+        timer(|| {
+            assert_eq!(search_algorithms::linear_search(&array, 4), 3);
+            assert_eq!(search_algorithms::linear_search(&array, 5), 4);
+            assert_eq!(search_algorithms::linear_search(&array, 6), 5);
+            assert_eq!(search_algorithms::linear_search(&array, 7), 6);
+            assert_eq!(search_algorithms::linear_search(&array, 8), 7);
+            assert_eq!(search_algorithms::linear_search(&array, 9), 8);
+            assert_eq!(search_algorithms::linear_search(&array, 10), 9);
+        }, "linear search")
     }
 
     pub fn test_binary_search() {
         let array: Vec<i32> = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        // start timer
-        let start = std::time::Instant::now();        
-
-        // do tests
-        assert_eq!(search_algorithms::binary_search(&array, 4), 3);
-        assert_eq!(search_algorithms::binary_search(&array, 5), 4);
-        assert_eq!(search_algorithms::binary_search(&array, 6), 5);
-        assert_eq!(search_algorithms::binary_search(&array, 7), 6);
-        assert_eq!(search_algorithms::binary_search(&array, 8), 7);
-        assert_eq!(search_algorithms::binary_search(&array, 9), 8);
-
-        // stop timer
-        let end = std::time::Instant::now();
-        let duration = end.duration_since(start);
-        println!("Binary search time: {:?}", duration);
+        
+        timer(|| {
+            assert_eq!(search_algorithms::binary_search(&array, 4), 3);
+            assert_eq!(search_algorithms::binary_search(&array, 5), 4);
+            assert_eq!(search_algorithms::binary_search(&array, 6), 5);
+            assert_eq!(search_algorithms::binary_search(&array, 7), 6);
+            assert_eq!(search_algorithms::binary_search(&array, 8), 7);
+            assert_eq!(search_algorithms::binary_search(&array, 9), 8);
+        }, "binary search")
     }
 
     pub fn test_bubble_sort() {
@@ -100,16 +99,9 @@ pub mod tests {
             array.push(i);
         }
 
-        // start timer
-        let start = std::time::Instant::now();        
-
-        sorting_algorithms::bubble_sort(&mut array);
-
-        // stop timer
-        let end = std::time::Instant::now();
-        let duration = end.duration_since(start);
-        println!("Bubble sort time: {:?}", duration);
-
+        timer(|| {
+            sorting_algorithms::bubble_sort(&mut array);
+        }, "bubble sort");
 
         for i in 0..array.len() {
             assert_eq!(array[i], i as i32);
