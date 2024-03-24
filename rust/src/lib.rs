@@ -48,6 +48,27 @@ pub mod sorting_algorithms {
         }
     }
 
+    pub fn selection_sort(array: &mut [i32]) {
+        // loop array
+        for i in 0..(array.len())-1 {
+            let mut min = i;
+
+            // Find the minimum element in the unsorted part of the array
+            for j in (i+1)..array.len() {
+                // if arr index j < arr index min
+                if  array[j] < array[min]{
+                    min = j;
+                }
+            }
+      
+            // Swap the found minimum element with the first element
+            let temp = array[i];
+            array[i] = array[min];
+            array[min] = temp
+            // then start from next index on the next loop
+        }
+    }
+
 }
 
 pub mod tests {
@@ -102,6 +123,23 @@ pub mod tests {
         timer(|| {
             sorting_algorithms::bubble_sort(&mut array);
         }, "bubble sort");
+
+        for i in 0..array.len() {
+            assert_eq!(array[i], i as i32);
+        }
+    }
+
+    pub fn test_selection_sort() {
+        // unsorted list from 0 to 20
+        let mut array: Vec<i32> = vec![];
+        // reverse loop
+        for i in (0..20).rev(){
+            array.push(i);
+        }
+
+        timer(|| {
+            sorting_algorithms::selection_sort(&mut array);
+        }, "selection sort");
 
         for i in 0..array.len() {
             assert_eq!(array[i], i as i32);

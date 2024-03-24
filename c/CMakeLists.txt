@@ -4,17 +4,27 @@ project(your_project_name)
 # Set the C standard
 set(CMAKE_C_STANDARD 99)
 
-# Add the main.c file to the project
-add_executable(Algorithms main.c)
+# Add the lib directory to the include path
 
-# Add the search_algorithms directory
-# add_subdirectory(search_algorithms)
+include_directories(./lib)
 
+# Add the source files
+set(SOURCES
+    main.c
+    lib/search_algorithms.c
+    lib/sort_algorithms.c
+    # Add other source files here if needed
+)
 
-# # Link the search_algorithms library with the executable
-# target_link_libraries(Algorithms search_algorithms)
+# Add the header files
+set(HEADERS
+    lib/search_algorithms.h
+    lib/sort_algorithms.h
+    # Add other header files here if needed
+)
 
-# custom command to run the program after compolation
-add_custom_command(TARGET Algorithms
-                   POST_BUILD
-                   COMMAND Algorithms)
+# Add the executable target
+add_executable(Algorithms ${SOURCES} ${HEADERS})
+
+# custom command to run the program after compilation
+add_custom_command(TARGET Algorithms POST_BUILD COMMAND Algorithms)
