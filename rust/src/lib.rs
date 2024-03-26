@@ -69,6 +69,44 @@ pub mod sorting_algorithms {
         }
     }
 
+    fn partition(array: &mut [i32], lo: i32, hi: i32) -> i32 {
+        let pivot = array[hi as usize];
+
+        let mut idx = lo - 1;
+
+        // weak sort
+        for i in lo..hi {
+            if array[i as usize] < pivot {
+                idx += 1;
+                let temp = array[i as usize];
+                array[i as usize] = array[idx as usize];
+                array[idx as usize] = temp;
+            }
+        }
+
+        // swap pivot index
+        idx += 1;
+        array[hi as usize] = array[idx as usize];
+        array[idx as usize] = pivot;
+
+        return idx;
+    }
+
+    fn qs(array: &mut [i32], lo: i32, hi: i32) {
+        if lo >= hi  {
+            return;
+        }
+
+        let pivot = partition(array, lo, hi);
+
+        qs(array, lo, pivot - 1);
+        qs(array, pivot + 1, hi);
+    }
+
+    pub fn quick_sort(array: &mut [i32]){
+        qs(array, 0, (array.len() as i32) - 1);
+    }
+
 }
 
 pub mod tests {
@@ -140,6 +178,23 @@ pub mod tests {
         timer(|| {
             sorting_algorithms::selection_sort(&mut array);
         }, "selection sort");
+
+        for i in 0..array.len() {
+            assert_eq!(array[i], i as i32);
+        }
+    }
+
+    pub fn test_quick_sort() {
+        // unsorted list from 0 to 20
+        let mut array: Vec<i32> = vec![];
+        // reverse loop
+        for i in (0..20).rev(){
+            array.push(i);
+        }
+
+        timer(|| {
+            sorting_algorithms::quick_sort(&mut array);
+        }, "quick sort");
 
         for i in 0..array.len() {
             assert_eq!(array[i], i as i32);
