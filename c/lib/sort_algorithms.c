@@ -17,8 +17,7 @@ void bubble_sort(int *arr, int length){
   }
 }
 
-void selection_sort(int *arr, int length) {
-  
+void selection_sort(int *arr, int length) {  
   // Iterate through the array
   for (int i = 0; i < length - 1; i++) {
       int min = i;
@@ -38,4 +37,38 @@ void selection_sort(int *arr, int length) {
       
       // then start from next index on the next loop
   }
+}
+
+int partition(int *arr, int low, int hi){
+  int pivot = arr[hi];
+
+  int idx = low - 1;
+
+  // weak sor list
+  for (size_t i = low; i < hi; i++){
+    if (arr[i] < pivot){
+      idx++;
+      int temp = arr[i];
+      arr[i] = arr[idx];
+      arr[idx] = temp;
+    }
+    
+  }
+
+  // swap pivots index
+  idx++;
+  arr[hi] = arr[idx];
+  arr[idx] = pivot;
+  
+  return idx;
+}
+
+
+void quick_sort(int *arr, int low, int hi){
+  if (low >= hi) return;
+
+  int pivot = partition(arr, low, hi);
+
+  quick_sort(arr, low, pivot - 1);
+  quick_sort(arr, pivot + 1, hi);  
 }

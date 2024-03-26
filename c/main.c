@@ -96,6 +96,28 @@ void test_selection_sort(){
   
 }
 
+void test_quick_sort(){
+  int arr[20];
+  for (size_t i = 20; i > 0 ; --i){
+    arr[i-1] = i;
+  }
+  int length = sizeof(arr) / sizeof(arr[0]);
+
+  // start timer
+  clock_t start = clock();
+
+  quick_sort(arr, 0, length - 1);
+
+  // stop timer
+  clock_t end = clock();
+  printf("%s: %fs\n", "quick sort", (double)(end - start) / CLOCKS_PER_SEC);
+
+  for (size_t i = 0; i < 20; i++){
+    assert(arr[i] - 1 == i);
+    printf("%d", arr[i]);
+  }
+}
+
 // --------------- main function --------------------
 int main(int argc, char **argv){
   // searching algorithms
@@ -105,6 +127,7 @@ int main(int argc, char **argv){
   // sorting algorithms
   test_bubble_sort();
   test_selection_sort();
+  test_quick_sort();
 
   printf("EOP\n");
   return 0;
